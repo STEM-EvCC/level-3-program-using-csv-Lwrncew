@@ -4,3 +4,28 @@
 3,2/5/2023,Ransomware,Critical,Ransomware attack encrypting company data,Pending
 4,3/10/2023,Phishing,Low,Phishing email targeting external customers,Pending
 5,3/15/2023,Data Breach,Critical,Sensitive data leaked from database,Pending
+
+import csv
+
+# Read the CSV file and store the data in a list
+input_file = 'security_incidents.csv'
+output_file = 'security_incidents_modified.csv'
+data = []
+
+with open(input_file, mode='r', newline='') as file:
+    reader = csv.DictReader(file)
+    for row in reader:
+        # Add the 'Status' column with a default value of 'Pending'
+        row['Status'] = 'Pending'
+        data.append(row)
+
+# Get the fieldnames from the reader and add the new 'Status' column
+fieldnames = reader.fieldnames + ['Status']
+
+# Write the modified data to a new CSV file
+with open(output_file, mode='w', newline='') as file:
+    writer = csv.DictWriter(file, fieldnames=fieldnames)
+    writer.writeheader()
+    writer.writerows(data)
+
+print(f"Modified data has been saved to {output_file}.")
